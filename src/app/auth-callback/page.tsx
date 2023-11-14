@@ -3,6 +3,17 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 
+
+const syncUser = async()=>{
+  await fetch('/api/auth/synctodb').then(async(res)=>{
+    const data = await res;
+    console.log(data);
+   }).catch((err)=>{
+    console.log(err)
+   })
+}
+
+
 const Page = () => {
   const router = useRouter()
 
@@ -24,6 +35,11 @@ const Page = () => {
   //   retry: true,
   //   retryDelay: 500,
   // })
+
+ 
+
+syncUser();
+  
 
   return (
     <div className='w-full mt-24 flex justify-center'>
