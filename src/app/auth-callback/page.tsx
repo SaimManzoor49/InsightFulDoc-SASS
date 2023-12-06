@@ -2,44 +2,29 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
+import axios from 'axios'
+import { useEffect } from 'react'
 
-
-const syncUser = async()=>{
-  await fetch('/api/auth/synctodb').then(async(res)=>{
-    const data = await res;
-    console.log(data);
-   }).catch((err)=>{
-    console.log(err)
-   })
-}
 
 
 const Page = () => {
   const router = useRouter()
-
   const searchParams = useSearchParams()
   const origin = searchParams.get('origin')
 
-  // trpc.authCallback.useQuery(undefined, {
-  //   onSuccess: ({ success }) => {
-  //     if (success) {
-  //       // user is synced to db
-  //       router.push(origin ? `/${origin}` : '/dashboard')
-  //     }
-  //   },
-  //   onError: (err) => {
-  //     if (err.data?.code === 'UNAUTHORIZED') {
-  //       router.push('/sign-in')
-  //     }
-  //   },
-  //   retry: true,
-  //   retryDelay: 500,
-  // })
 
- 
+  useEffect(() => {
+    const getUserFromDB = async () => {
+      const { data } = await axios.get(`/api/auth/synctodb`)
+      if (data.id) {
+        router.push(origin ? `/${origin}` : '/dashboard')
+      } else {
+        router.push('/api/auth/login?post_login_redirect_url=/dashboard')
+      }
+    }
 
-syncUser();
-  
+    getUserFromDB();
+  }, [])
 
   return (
     <div className='w-full mt-24 flex justify-center'>
