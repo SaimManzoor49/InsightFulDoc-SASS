@@ -14,6 +14,8 @@ model User {
   id    String @id @unique
   email String @unique
 
+  File File[]
+
   stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
   stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
   stripePriceId          String?   @map(name: "stripe_price_id")
@@ -38,4 +40,6 @@ model File {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  User      User     @relation(fields: [userId], references: [id])
+  userId    String
 }
