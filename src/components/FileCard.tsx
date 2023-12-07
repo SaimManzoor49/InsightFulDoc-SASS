@@ -3,25 +3,33 @@ import { File } from '@prisma/client'
 import { format } from 'date-fns'
 import { MessageSquare, Plus, TrashIcon } from 'lucide-react'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from './ui/button'
 import { toast } from 'react-hot-toast'
 import axios from 'axios'
+import {useRouter} from 'next/navigation'
+import {Loader} from 'lucide-react'
 interface FileCardProps{
     file:File
 }
 
 const FileCard = ({file}:FileCardProps) => {
-
+  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
 
   
     const handleDelete = async(id:string,userId:string)=>{
 
       try {
+        setIsLoading(true)
         await axios.delete(`/api/files/${id}`)
         toast.success("File deleted.")
+        router.refresh()
       } catch (error) {
+        setIsLoading(false)
         toast.error("Something went wrong.")
+      }finally{
+        setIsLoading(false)
       }
 
     }
@@ -48,8 +56,13 @@ const FileCard = ({file}:FileCardProps) => {
       <MessageSquare className='h-4 w-4' />
       mocked
     </div>
-    <Button size={'sm'} className='w-full' variant={'destructive'} onClick={()=>{handleDelete(file.id,file.userId)}}>
-      <TrashIcon className='h-4 w-4' />
+    <Button size={'sm'} className='w-full' variant={'destructive'} disabled={isLoading} onClick={()=>{handleDelete(file.id,file.userId)}}>
+      {isLoading ?(<>
+      <Loader className='w-4 h-4 animate-spin' />
+      </>):
+      (
+        <TrashIcon className='h-4 w-4' />
+      )}
     </Button>
     </div>
   </li>
