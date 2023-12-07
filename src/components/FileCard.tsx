@@ -6,32 +6,25 @@ import Link from 'next/link'
 import React from 'react'
 import { Button } from './ui/button'
 import { toast } from 'react-hot-toast'
+import axios from 'axios'
 interface FileCardProps{
     file:File
 }
 
 const FileCard = ({file}:FileCardProps) => {
 
+
+  
     const handleDelete = async(id:string,userId:string)=>{
 
-        // if(userId === user.id){
-        //   try {
-        //     await db.file.delete({
-        //       where:{
-        //         id,
-                
-        //       }
-        //     })
-        //     toast.success("File deleted.")
-        //   } catch (error:any) {
-        //     toast.error("Something went wrong.")
-        //     console.log(error?.message)
-        //   }
-        // }else{
-        //   toast.error("Unauthorized.")
-        // }
-        toast.error("elo")
+      try {
+        await axios.delete(`/api/files/${id}`)
+        toast.success("File deleted.")
+      } catch (error) {
+        toast.error("Something went wrong.")
       }
+
+    }
 
 
   return (
