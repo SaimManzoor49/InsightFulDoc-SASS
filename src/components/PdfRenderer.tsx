@@ -18,15 +18,25 @@ const PdfRenderer = ({ url }: { url: string }) => {
   const [numPages, setNumPages] = useState<number>()
   const [currPage, setcurrPage] = useState(1)
   const [scale,setScale] = useState<number>(1)
+  const [rotation, setRotation] = useState(0)
   
 
   const { width, ref } = useResizeDetector()
 
   return (
     <div className='w-full bg-white rounded-md shadow flex flex-col items-center'>
-      <Topbar numPages={numPages as number} setcurrPage={setcurrPage} currPage={currPage} scale={scale} setScale={setScale}/>
+      <Topbar 
+      numPages={numPages as number}
+       setcurrPage={setcurrPage}
+        currPage={currPage}
+         scale={scale}
+          setScale={setScale}
+          rotation={rotation}
+           setRotation={setRotation}
+           fileUrl={url}
+          />
       <div className="flex-1 w-full max-h-screen">
-        <SimpleBar autoHide={false} className='max-h-[cal(100vh-10rem)]' >
+        <SimpleBar autoHide={false} className='max-h-[75vh]' >
         <div className="" ref={ref}>
           <Document
             file={url}
@@ -51,6 +61,7 @@ const PdfRenderer = ({ url }: { url: string }) => {
               width={width ? width : 1}
               pageNumber={currPage}
               scale={scale}
+              rotate={rotation}
             />
           </Document>
         </div>

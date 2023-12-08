@@ -1,7 +1,7 @@
 'use client'
 import React, { Dispatch, SetStateAction, useState } from 'react'
 import { Button } from './ui/button'
-import { ChevronDown, ChevronUp, Search } from 'lucide-react'
+import { ChevronDown, ChevronUp, RotateCw, Search } from 'lucide-react'
 import { Input } from './ui/input'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -10,8 +10,21 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { cn } from '@/lib/utils'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from './ui/dropdown-menu'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
+import PdfFullScreen from './PdfFullScreen'
 
-const Topbar = ({ numPages, currPage, setcurrPage,scale, setScale }: { numPages: number, currPage: number, setcurrPage: Dispatch<SetStateAction<number>>, scale:number, setScale:Dispatch<SetStateAction<number>> }) => {
+interface ITopbarProps {
+    numPages: number,
+    currPage: number,
+    setcurrPage: Dispatch<SetStateAction<number>>,
+    scale: number,
+    setScale: Dispatch<SetStateAction<number>>
+    rotation:number,
+    setRotation: Dispatch<SetStateAction<number>>,
+    fileUrl:string
+
+}
+
+const Topbar = ({ numPages, currPage, setcurrPage, scale, setScale ,rotation,setRotation,fileUrl }: ITopbarProps ) => {
 
     const validator = z.object({
         page: z.string().refine((num) => Number(num) > 0 && Number(num) <= numPages!)
@@ -43,20 +56,21 @@ const Topbar = ({ numPages, currPage, setcurrPage,scale, setScale }: { numPages:
                         setcurrPage((s) => (
                             s - 1 > 1 ? s - 1 : 1
                         ))
+                        setValue('page',String(currPage-1))
                     }}
                 >
                     <ChevronDown className='h-4 w-4' />
                 </Button>
                 <div className="flex items-center gap-1.5">
                     <Input {...register("page")} // a bug
-                     className={cn(
-                        "w-12 h-8",
-                        errors.page && "focus-visible:ring-red-500"
-                    )} onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                            handleSubmit(handlePageSubmit)()
-                        }
-                    }} />
+                        className={cn(
+                            "w-12 h-8",
+                            errors.page && "focus-visible:ring-red-500"
+                        )} onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                handleSubmit(handlePageSubmit)()
+                            }
+                        }} />
                     <p className='text-zinc-700 text-sm space-x-1'>
                         <span>/</span>
                         <span>{numPages ?? "X"}</span>
@@ -66,6 +80,7 @@ const Topbar = ({ numPages, currPage, setcurrPage,scale, setScale }: { numPages:
                     disabled={numPages === undefined || currPage === numPages}
                     onClick={() => {
                         setcurrPage(s => s + 1 > numPages! ? numPages! : s + 1)
+                        setValue('page',String(currPage+1))
                     }}
                 >
                     <ChevronUp className='h-4 w-4' />
@@ -75,33 +90,41 @@ const Topbar = ({ numPages, currPage, setcurrPage,scale, setScale }: { numPages:
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button className='gap-1.5' aria-label='zoom' variant={'ghost'} >
-                            <Search className='h-4 w-4'/>
-                            {scale*100}% <ChevronDown className='h-3 w-3 opacity-50' />
+                            <Search className='h-4 w-4' />
+                            {scale * 100}% <ChevronDown className='h-3 w-3 opacity-50' />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                        <DropdownMenuItem onSelect={()=>{
+                        <DropdownMenuItem onSelect={() => {
                             setScale(1)
                         }}>
                             100%
                         </DropdownMenuItem>
-                        <DropdownMenuItem onSelect={()=>{
+                        <DropdownMenuItem onSelect={() => {
                             setScale(1.5)
                         }}>
                             150%
                         </DropdownMenuItem>
-                        <DropdownMenuItem onSelect={()=>{
+                        <DropdownMenuItem onSelect={() => {
                             setScale(2)
                         }}>
                             200%
                         </DropdownMenuItem>
-                        <DropdownMenuItem onSelect={()=>{
+                        <DropdownMenuItem onSelect={() => {
                             setScale(2.5)
                         }}>
                             250%
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
+                <Button aria-label='rotate 90 degrees' variant={'ghost'}
+                onClick={()=>{
+                    setRotation(s=>s+90)
+                }}
+                >
+                    <RotateCw className='h-4 w-4' />
+                </Button>
+                <PdfFullScreen fileUrl={fileUrl} />
             </div>
         </div>
     )
