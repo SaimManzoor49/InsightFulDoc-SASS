@@ -3,13 +3,10 @@ import UploadButton from './UploadButton'
 import { db } from '@/db'
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { redirect } from 'next/navigation'
-import { Ghost, MessageSquare, Plus, TrashIcon } from 'lucide-react'
+import { Ghost} from 'lucide-react'
 import Skeleton from 'react-loading-skeleton'
-import Link from 'next/link'
 import FileCard from '@/components/FileCard'
 
-import { format} from 'date-fns'
-import { Button } from './ui/button'
 
 
 const Dashboard = async() => {
@@ -46,7 +43,7 @@ const Dashboard = async() => {
         <>
         <ul className='mt-8 grid grid-col-1 gap-6 divide-y divide-zinc-200 md:grid-cols-2 lg:grid-cols-3'>
           {userFiles.sort((a,b)=>new Date(b.createdAt).getTime()- new Date(a.createdAt).getTime()).map((file)=>(
-            <FileCard file={file} /> 
+            <FileCard file={file} key={file.id} /> 
           ))}
         </ul>
         </>
