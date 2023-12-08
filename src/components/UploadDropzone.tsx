@@ -26,7 +26,7 @@ const UploadDropzone = ({setIsOpen}:UploadDropzoneProps) => {
                     clearInterval(interval)
                     return s;
                 }
-                return s + 5;
+                return s + 3;
             })
         }, 500)
 
@@ -90,7 +90,7 @@ const UploadDropzone = ({setIsOpen}:UploadDropzoneProps) => {
                                         ) : null}
                                     </div>
                                 ) : null}
-                                <input type='file' id='dropzone-file' className='hidden' {...getInputProps} />
+                                {/* <input type='file' id='dropzone-file'   className='hidden' {...getInputProps} /> */}
                             </label>
                         </div>
                     </div>

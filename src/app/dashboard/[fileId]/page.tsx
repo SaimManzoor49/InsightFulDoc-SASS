@@ -33,7 +33,7 @@ const Page = async({params}:{params:{fileId:string}}) => {
             {/* left Side */}
             <div className="flex-1 xl:flex">
                 <div className="px-3 py-6 sm:px-6 lg:pl-8 xl:flex xl:pl-6">
-                    <PdfRenderer />
+                    <PdfRenderer url={file.url} />
                 </div>
             </div>
             <div className="shrink-0 flex-[0.75] border-t border-gray-200 lg:w-96 lg:border-l lg:border-t-0">
