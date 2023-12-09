@@ -26,6 +26,7 @@ try {
     const delFile = await db.file.delete({
         where:{
             id:params.fileId,
+            userId:user.id
         }
     }) 
     
@@ -37,3 +38,31 @@ try {
     
 }
 }
+
+export const GET = async(req:Request,{params}:{params:{fileId:string}})=>{
+try {
+    const {getUser} = getKindeServerSession()    
+    const user = await getUser();
+
+    if(!user){
+        return new NextResponse("User Not Found",{status:404})
+    }
+
+
+    const file = await db.file.findFirst({
+        where:{
+            id:params.fileId,
+            // userId:user.id
+        }
+    }) 
+    
+    return NextResponse.json(file)
+
+} catch (error) {
+    console.log("FILE_GET_ERROR",error)
+    return new NextResponse("Internal Server Error",{status:500})
+    
+}
+}
+
+

@@ -1,4 +1,4 @@
-import ChatWrapper from '@/components/ChatWrapper';
+import ChatWrapper from '@/components/Chat/ChatWrapper';
 import PdfRenderer from '@/components/PdfRenderer';
 import { db } from '@/db';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
@@ -9,6 +9,8 @@ import toast from 'react-hot-toast';
 const Page = async({params}:{params:{fileId:string}}) => {
     const {fileId} = params;
     const {getUser} = getKindeServerSession();
+
+    
     const user = await getUser();
 
     if(!user|| !user.id) redirect(`/auth-callback?origin=dachboard/${fileId}`)
@@ -21,11 +23,9 @@ const Page = async({params}:{params:{fileId:string}}) => {
     })
 
     if(!file){
-        toast.error("File not found.")
         redirect('/dashboard')
     }
 
-    console.log(file)
 
   return (
     <div className='flex-1 justify-between flex flex-col h-[cal(100vh-3.5rem)]'>
@@ -37,7 +37,7 @@ const Page = async({params}:{params:{fileId:string}}) => {
                 </div>
             </div>
             <div className="shrink-0 flex-[0.75] border-t border-gray-200 lg:w-96 lg:border-l lg:border-t-0">
-                <ChatWrapper />
+                <ChatWrapper fileId={file.id} userId={user.id} />
             </div>
         </div>
     </div>
