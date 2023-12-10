@@ -6,6 +6,8 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { OpenAIEmbeddings } from "langchain/embeddings/openai"
 import { PineconeStore } from "langchain/vectorstores/pinecone"
 import {OpenAIStream,StreamingTextResponse} from 'ai'
+import { NextResponse } from "next/server"
+import { INFINITE_QUERY_LIMIT } from "@/constants/infinit-query"
 
 export const POST = async(req:Request)=>{
 
@@ -120,6 +122,4 @@ export const POST = async(req:Request)=>{
 
     return new StreamingTextResponse(stream)
 
-
 }
-    

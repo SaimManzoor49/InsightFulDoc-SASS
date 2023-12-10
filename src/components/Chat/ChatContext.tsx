@@ -24,15 +24,16 @@ const ChatContextProvider =  ({ fileId, children }: { fileId: string, children: 
     const [message, setMessage] = useState("")
     const [isLoading, setIsLoading] = useState(false)
 
-    const sendMessage = async (mssg: string) => {
+    const sendMessage = async () => {
         const { data } = await axios.post(`/api/message`, { fileId, message })
         console.log(data)
+        setMessage("")
         return data
     }
 
 
 
-    const addMessage = () => sendMessage(message);
+    const addMessage = () => sendMessage();
 
     const handleInputChange = (e:React.ChangeEvent<HTMLTextAreaElement>)=>{
         setMessage(e.target.value)

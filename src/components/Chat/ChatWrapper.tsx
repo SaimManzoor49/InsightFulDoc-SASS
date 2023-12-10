@@ -78,9 +78,9 @@ if(file?.uploadStatus==="FAILED"){
 
   return (
     <ChatContextProvider fileId={fileId}>
-    <div className='relative min-g-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between ga-2'>
+    <div className='relative min-h-[calc(100vh-3.5rem)]  bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between ga-2'>
       <div className="flex-1 justify-between flex flex-col mb-28">
-        <Messages />
+        <Messages fileId={fileId} />
       </div>
 
       <ChatInput isDisabled={false} />
