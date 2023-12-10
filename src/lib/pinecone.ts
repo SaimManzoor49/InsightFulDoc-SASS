@@ -28,12 +28,12 @@ const pinecone = new Pinecone({
 });
 
 const pineconeIndex = pinecone.index("insight-ful-docs");
-// to check
-const showData = async () => {
-  const { status } = await pinecone.describeIndex("insight-ful-docs");
-  console.log(status?.ready);
-};
+// // to check
+// const showData = async () => {
+//   const { status } = await pinecone.describeIndex("insight-ful-docs");
+//   console.log(status?.ready);
+// };
 
-showData();
+// showData();
 
 export default pineconeIndex;

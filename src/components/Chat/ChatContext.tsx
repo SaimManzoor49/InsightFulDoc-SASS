@@ -26,7 +26,6 @@ const ChatContextProvider =  ({ fileId, children }: { fileId: string, children: 
 
     const sendMessage = async () => {
         const { data } = await axios.post(`/api/message`, { fileId, message })
-        console.log(data)
         setMessage("")
         return data
     }

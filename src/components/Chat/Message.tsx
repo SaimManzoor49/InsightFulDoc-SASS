@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { messageType } from '@/types/message'
+import { messageType } from '@/types/messageType'
 import React from 'react'
 import { Icons } from '../Icons'
 import ReactMarkdown from 'react-markdown'

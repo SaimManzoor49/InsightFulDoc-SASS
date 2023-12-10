@@ -27,7 +27,6 @@ const ChatInput = ({isDisabled}:IChatInputProps) => {
                 autoFocus 
                 onChange={(e)=>{
                   handleInputChange(e)
-                  console.log(message+ "<= in input")
                 }}
                 value={message}
                 onKeyDown={(e)=>{

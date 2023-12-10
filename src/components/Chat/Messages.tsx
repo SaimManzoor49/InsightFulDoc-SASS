@@ -4,7 +4,7 @@ import { Loader2, MessageSquare } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import Message from './Message'
-import { messageType } from '@/types/message'
+import { messageType } from '@/types/messageType'
 
 
 
@@ -16,7 +16,6 @@ const Messages = ({ fileId }: { fileId: string }) => {
   const getMessages = async (fileId: string, cursor?: string/*/////////*/) => {
     const { data } = await axios.post(`/api/messages`, { fileId })
     const { messages, nextCursor } = data
-    console.log(messages)
     setMessages((s:any) => [...messages])
     setCursor(nextCursor)
     setIsLoading(false)
