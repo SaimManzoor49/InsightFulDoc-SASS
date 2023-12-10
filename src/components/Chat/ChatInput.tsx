@@ -1,5 +1,5 @@
 'use client'
-import React, { useContext } from 'react'
+import React, { useContext, useRef } from 'react'
 import { Textarea } from '../ui/textarea'
 import { Button } from '../ui/button'
 import { Send } from 'lucide-react'
@@ -11,7 +11,9 @@ interface IChatInputProps{
 
 const ChatInput = ({isDisabled}:IChatInputProps) => {
 
-  const {} = useContext(ChatContext)
+  const {addMessage,handleInputChange,isLoading,message} = useContext(ChatContext)
+
+  const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
   return (
     <div className='absolute bottom-0 left-0 w-full '>
@@ -19,8 +21,30 @@ const ChatInput = ({isDisabled}:IChatInputProps) => {
         <div className="relative flex h-full flex-1 items-stretch md:flex-col">
           <div className="relative flex flex-col w-full flex-grow p-4">
             <div className="relative">
-              <Textarea rows={1} autoFocus   maxRows={4} placeholder='Enter your questions...' className='resize-none pr-12 text-base py-3 scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch' />
-              <Button aria-label='send message' className='absolute bottom-1.5 right-[8px]'>
+              <Textarea 
+              ref={textAreaRef}
+               rows={1}
+                autoFocus 
+                onChange={(e)=>{
+                  handleInputChange(e)
+                  console.log(message+ "<= in input")
+                }}
+                value={message}
+                onKeyDown={(e)=>{
+                if(e.key==="Enter"&& !e.shiftKey){
+                  e.preventDefault()
+                  addMessage()
+                  textAreaRef.current?.focus()
+                }
+              }}  maxRows={4} placeholder='Enter your questions...' className='resize-none pr-12 text-base py-3 scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch' />
+              <Button  aria-label='send message' className='absolute bottom-1.5 right-[8px]' disabled={isLoading || isDisabled}
+              type='submit'
+              onClick={(e)=>{
+                e.preventDefault()
+                addMessage()
+                textAreaRef.current?.focus()
+              }}
+              >
                 <Send  className='h-4 w-4'/>
               </Button>
 
