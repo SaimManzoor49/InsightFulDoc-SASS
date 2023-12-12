@@ -13,19 +13,21 @@ import { useIntersection } from '@mantine/hooks'
 const Messages = ({ fileId }: { fileId: string }) => {
   // const [messages, setMessages] = useState<messageType[]>([])
   const [cursor, setCursor] = useState<string | undefined>()
-  // const [isLoading,setIsLoading] = useState(true)
+  const [isLoadingScroll,setIsLoadingScroll] = useState(false)
 
   const { messages, setMessages, setIsLoading, isLoading } = useContext(ChatContext)
 
 
 
   const getMessages = async (fileId: string, cursor?: string/*/////////*/) => {
+    cursor && setIsLoadingScroll(true)
     const { data } = await axios.post(`/api/messages`, { fileId, cursor })
     const { messages, nextCursor } = data
     setMessages((s: messageType[]) => [...s, ...messages])
     setCursor(nextCursor)
     console.log(cursor)
     // setIsLoading(false)
+    cursor && setIsLoadingScroll(false)
     setIsLoading(false)
     return messages
   }
@@ -59,6 +61,7 @@ const Messages = ({ fileId }: { fileId: string }) => {
     console.log(entry)
     if (entry?.isIntersecting && cursor) {
       getMessages(fileId, cursor)
+      
       console.log("req.done")
 
     }
@@ -67,7 +70,9 @@ const Messages = ({ fileId }: { fileId: string }) => {
   return (
     <div
 
-      className='flex max-h-[calc(100vh-3.5rem-7rem)] border-zinc-200 flex-1 flex-col-reverse gap-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch'>
+      className='flex max-h-[calc(100vh-3.5rem-7rem)] border-zinc-200 flex-1 flex-col-reverse gap-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch'
+      >
+        {isLoadingScroll && (<div className='flex justify-center items-center w-full bg-gray-200/60 rounded-b-full p-2 absolute top-0 right-0'><Loader2 className='h-6 w-6 animate-spin' /></div>)}
       {combinedMessages && combinedMessages.length > 0 ? (
 
         combinedMessages.map((message, i) => {

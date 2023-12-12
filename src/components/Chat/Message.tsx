@@ -75,5 +75,6 @@ const Message = forwardRef<HTMLDivElement, IMessageProps>(({ message, isNextMess
         </div>
     )
 })
+Message.displayName = "Message"
 
 export default Message
