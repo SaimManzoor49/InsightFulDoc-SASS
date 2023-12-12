@@ -17,7 +17,7 @@ const Message = ({ message, isNextMessageSamePerson }: IMessageProps) => {
             {
                 "justify-end": message.isUserMessage
             }
-        )}>
+        )} key={message.id}>
             <div className={cn(
                 "relative flex h-6 w-6 aspect-square items-center justify-center",
                 {

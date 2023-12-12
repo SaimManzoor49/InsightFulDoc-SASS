@@ -1,23 +1,29 @@
 'use client'
 import axios from 'axios'
 import { Loader2, MessageSquare } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import Message from './Message'
 import { messageType } from '@/types/messageType'
+import { ChatContext } from './ChatContext'
 
 
 
 const Messages = ({ fileId }: { fileId: string }) => {
-  const [messages, setMessages] = useState<messageType[]>([])
+  // const [messages, setMessages] = useState<messageType[]>([])
   const [cursor, setCursor] = useState<string | undefined>()
-  const [isLoading,setIsLoading] = useState(true)
+  // const [isLoading,setIsLoading] = useState(true)
+
+  const {messages,setMessages,setIsLoading,isLoading} = useContext(ChatContext)
+
+  
 
   const getMessages = async (fileId: string, cursor?: string/*/////////*/) => {
     const { data } = await axios.post(`/api/messages`, { fileId })
     const { messages, nextCursor } = data
-    setMessages((s:any) => [...messages])
+    setMessages((s:messageType[]) => [...messages])
     setCursor(nextCursor)
+    // setIsLoading(false)
     setIsLoading(false)
     return messages
   }
@@ -36,7 +42,7 @@ const Messages = ({ fileId }: { fileId: string }) => {
   }
 
   const combinedMessages:messageType[] = [
-    ...(true?[loadingMessage]:[]),
+    ...(isLoading?[loadingMessage]:[]),
     ...(messages??[])
   ]
 

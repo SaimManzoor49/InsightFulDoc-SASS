@@ -11,9 +11,10 @@ interface IChatInputProps{
 
 const ChatInput = ({isDisabled}:IChatInputProps) => {
 
-  const {addMessage,handleInputChange,isLoading,message} = useContext(ChatContext)
+  const {addMessage,handleInputChange,isLoading,message,setMessages} = useContext(ChatContext)
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
+  const currTempMssg = {text:message,id:`temp-id ${new Date().getTime()}`,isUserMessage:true,createdAt:new Date()}
 
   return (
     <div className='absolute bottom-0 left-0 w-full '>
@@ -33,6 +34,7 @@ const ChatInput = ({isDisabled}:IChatInputProps) => {
                 if(e.key==="Enter"&& !e.shiftKey){
                   e.preventDefault()
                   addMessage()
+                  setMessages(s=>[currTempMssg,...s])
                   textAreaRef.current?.focus()
                 }
               }}  maxRows={4} placeholder='Enter your questions...' className='resize-none pr-12 text-base py-3 scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch' />
@@ -40,7 +42,7 @@ const ChatInput = ({isDisabled}:IChatInputProps) => {
               onClick={(e)=>{
                 e.preventDefault()
                 addMessage()
-
+                setMessages(s=>[currTempMssg,...s])
                 textAreaRef.current?.focus()
               }}
               >

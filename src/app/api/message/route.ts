@@ -113,7 +113,8 @@ export const POST = async(req:Request)=>{
                     text:completion,
                     isUserMessage:false,
                     fileId,
-                    userId
+                    userId,
+                    // createdAt:new Date()
                 }
             })
         }
