@@ -37,11 +37,31 @@ const ChatContextProvider =  ({ fileId, children }: { fileId: string, children: 
         setIsLoading(true)
         setMessage("")
         const  res  = await axios.post(`/api/message`, { fileId, message })
-        res.data
-        console.log(res.data+" <- ai res")
+        // let data  = res.data;
+        // let data:ReadableStream<any>  = res.data;
+        // const reader = data.getReader()
+        // const decoder = new TextDecoder()
+        // let done = false;
+
+
+        // let accRes = ''
+
+        // while(!done){
+        //     const {value,done:doneReading} =await reader.read()
+        //     done=doneReading
+        //     const chunkValue =decoder.decode(value)
+        //     accRes+=chunkValue
+
+        //     // append to auctual Message
+
+        // }
+
+
+
+
         const aiRes:messageType = {
             text:res.data,
-            createdAt:new Date(),
+            createdAt:new Date().toISOString(),
             id:`ai-res ${new Date().getTime()}`,
             isUserMessage:false
             
@@ -57,8 +77,6 @@ const ChatContextProvider =  ({ fileId, children }: { fileId: string, children: 
 
     const handleInputChange = (e:React.ChangeEvent<HTMLTextAreaElement>)=>{
         setMessage(e.target.value)
-        // console.log(e.target.value)
-        console.log(message)
     }
 
     return (

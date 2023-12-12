@@ -4,6 +4,7 @@ import { NextResponse } from "next/server"
 
 export const DELETE = async(req:Request,{params}:{params:{fileId:string}})=>{
 try {
+ 
     const {getUser} = getKindeServerSession()    
     const user = await getUser();
 

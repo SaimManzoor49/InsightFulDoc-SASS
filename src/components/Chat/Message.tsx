@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils'
 import { messageType } from '@/types/messageType'
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { Icons } from '../Icons'
 import ReactMarkdown from 'react-markdown'
 import { format } from 'date-fns'
@@ -10,14 +10,17 @@ interface IMessageProps {
     isNextMessageSamePerson: boolean
 }
 
-const Message = ({ message, isNextMessageSamePerson }: IMessageProps) => {
+const Message = forwardRef<HTMLDivElement, IMessageProps>(({ message, isNextMessageSamePerson }, ref) => {
     return (
-        <div className={cn(
-            "flex items-end",
-            {
-                "justify-end": message.isUserMessage
-            }
-        )} key={message.id}>
+        <div
+            ref={ref}
+            className={cn(
+                "flex items-end",
+                {
+                    "justify-end": message.isUserMessage
+                }
+            )}
+            key={message.id}>
             <div className={cn(
                 "relative flex h-6 w-6 aspect-square items-center justify-center",
                 {
@@ -55,22 +58,22 @@ const Message = ({ message, isNextMessageSamePerson }: IMessageProps) => {
                     </ReactMarkdown>) :
                         (message.text)
                     }
-                    {message.id !== "loading-message" ?(
+                    {message.id !== "loading-message" ? (
                         <div className={cn(
                             "text-xs select-none mt-2 w-full text-right",
                             {
-                                "text-zinc-500":!message.isUserMessage,
-                                "text-blue-300":message.isUserMessage,
+                                "text-zinc-500": !message.isUserMessage,
+                                "text-blue-300": message.isUserMessage,
 
                             }
                         )}>
-                            {format(new Date(message.createdAt),"HH:mm")}
+                            {format(new Date(message.createdAt), "HH:mm")}
                         </div>
-                    ):null}
+                    ) : null}
                 </div>
             </div>
         </div>
     )
-}
+})
 
 export default Message

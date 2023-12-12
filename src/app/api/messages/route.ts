@@ -30,7 +30,7 @@ export const POST = async(req:Request) =>{
         if(!file){
             return new NextResponse("File not found",{status:404})
         }
-
+        console.log(cursor + " < - ")
         const messages = await db.message.findMany({
             where:{
                 fileId:fileId

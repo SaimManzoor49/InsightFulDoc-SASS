@@ -114,7 +114,7 @@ export const POST = async(req:Request)=>{
                     isUserMessage:false,
                     fileId,
                     userId,
-                    // createdAt:new Date()
+                    createdAt:new Date().toISOString()
                 }
             })
         }

@@ -14,7 +14,7 @@ const ChatInput = ({isDisabled}:IChatInputProps) => {
   const {addMessage,handleInputChange,isLoading,message,setMessages} = useContext(ChatContext)
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
-  const currTempMssg = {text:message,id:`temp-id ${new Date().getTime()}`,isUserMessage:true,createdAt:new Date()}
+  const currTempMssg = {text:message,id:`temp-id ${new Date().getTime()}`,isUserMessage:true,createdAt:new Date().toISOString()}
 
   return (
     <div className='absolute bottom-0 left-0 w-full '>
