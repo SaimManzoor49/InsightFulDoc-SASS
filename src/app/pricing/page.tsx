@@ -1,14 +1,14 @@
 // 'use client'
+import React from 'react'
 import { MaxWidthWrapper } from '@/components/MaxWidthWrapper'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
-import React from 'react'
-import { PLANS } from '../config/stripe'
-import { cn } from '@/lib/utils'
 import { ArrowRight, Check, HelpCircle, Minus } from 'lucide-react'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
 import UpgradeButton from '@/components/UpgradeButton'
+import { PLANS } from '@/config/stripe'
+import { cn } from '@/lib/utils'
 
 // const Page = () => {
 const Page = async () => {
