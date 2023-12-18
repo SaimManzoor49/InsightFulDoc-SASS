@@ -9,7 +9,6 @@ const handleClick = async()=>{
   await axios.get(`/api/stripe`).then((res)=>{
     const {data} = res;
     window.location.href =data.url ?? "/dashboard/billing"
-    console.log(data)
   })
 
 }
