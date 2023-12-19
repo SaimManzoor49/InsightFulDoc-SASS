@@ -5,6 +5,7 @@ import { Button, buttonVariants } from './ui/button'
 import { LoginLink, LogoutLink, RegisterLink, getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { ArrowRight } from 'lucide-react'
 import UserAccountNav from '@/components/UserAccountNav'
+import MobileNav from './MobileNav'
 
 export const Navbar = async () => {
 
@@ -16,7 +17,7 @@ export const Navbar = async () => {
             <MaxWidthWrapper>
                 <div className="flex h-14 items-center justify-between border-b border-zinc-200">
                     <Link href={'/'} className='flex z-40 font-semibold' >InsightFulDoc.</Link>
-                    {/* Add mob nav */}
+                    <MobileNav isAuth={!!user} />
                     <div className="hidden items-center space-x-4 sm:flex">
                         <>
 
