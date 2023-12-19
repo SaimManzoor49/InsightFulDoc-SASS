@@ -8,13 +8,16 @@ import toast from "react-hot-toast"
 import { Progress } from "./ui/progress"
 
 interface UploadDropzoneProps{
-    setIsOpen:Dispatch<SetStateAction<boolean>>
+    setIsOpen:Dispatch<SetStateAction<boolean>>,
+    isSubscribed:boolean
 }
 
-const UploadDropzone = ({setIsOpen}:UploadDropzoneProps) => {
+const UploadDropzone = ({setIsOpen,isSubscribed}:UploadDropzoneProps) => {
     const [isUploading, setIsUploading] = useState<boolean>(false)
     const [uploadProgress, setUploadProgress] = useState<number>(0)
-    const { startUpload } = useUploadThing("pdfUploader")
+    const { startUpload } = useUploadThing(
+        isSubscribed?"proPlanUploader":"freePlanUploader"
+    )
     const router= useRouter();
 
 
@@ -67,7 +70,7 @@ const UploadDropzone = ({setIsOpen}:UploadDropzoneProps) => {
                                     <p className='mb-2 test-sm text-zinc-700'>
                                         <span className="font-semibold">Click to upload</span> or drag and drop
                                     </p>
-                                    <p className='text-xs text-zinc-500'>PDF (up to 4MB)</p>
+                                    <p className='text-xs text-zinc-500'>PDF (up to {isSubscribed?"16":"4"}MB)</p>
                                 </div>
                                 {acceptedFiles && acceptedFiles[0] ? (
                                     <div className="max-w-xs bg-white flex items-center rounded-md overflow-hidden outline outline-[0.5px] outline-gray-300 divide-x divide-zinc-200 mt-4">
