@@ -25,7 +25,6 @@ const Messages = ({ fileId }: { fileId: string }) => {
     const { messages, nextCursor } = data
     setMessages((s: messageType[]) => [...s, ...messages])
     setCursor(nextCursor)
-    console.log(cursor)
     // setIsLoading(false)
     cursor && setIsLoadingScroll(false)
     setIsLoading(false)
@@ -58,11 +57,9 @@ const Messages = ({ fileId }: { fileId: string }) => {
   })
 
   useEffect(() => {
-    console.log(entry)
     if (entry?.isIntersecting && cursor) {
       getMessages(fileId, cursor)
       
-      console.log("req.done")
 
     }
   }, [entry])
@@ -78,7 +75,6 @@ const Messages = ({ fileId }: { fileId: string }) => {
         combinedMessages.map((message, i) => {
 
           const isNextMessageSamePerson = combinedMessages[i - 1]?.isUserMessage === combinedMessages[i]?.isUserMessage
-          console.log(message.id)
           if (i === combinedMessages.length - 1) {
             return <Message ref={ref} isNextMessageSamePerson={isNextMessageSamePerson} message={message} key={message.id} />
           } else {

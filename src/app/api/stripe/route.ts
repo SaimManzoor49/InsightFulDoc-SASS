@@ -27,7 +27,7 @@ export const GET = async (req: Request) => {
       customer:dbUser.stripeCustomerId,
       return_url:billingUrl
     })
-    return NextResponse.json({url :stripeSession.url})
+    return NextResponse.json({url :stripeSession.url||''})
 }
 
   const stripeSession = await stripe.checkout.sessions.create({
