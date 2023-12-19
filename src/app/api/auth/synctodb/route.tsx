@@ -6,38 +6,33 @@ import { NextResponse } from "next/server";
 
 export const GET = async (req: Request) => {
 
-    try {
-        const { getUser } = getKindeServerSession();
-        const user = await getUser();
+    const { getUser } = getKindeServerSession();
+    const user = await getUser();
 
 
-        if (user && user.id && user.email) {
+    if (user && user.id && user.email) {
 
-            const dbUser = await db.user.findFirst({
-                where: {
-                    id: user.id
+        const dbUser = await db.user.findFirst({
+            where: {
+                id: user.id
+            }
+        })
+
+        if (dbUser?.email) {
+            return NextResponse.json(dbUser)
+        } else {
+            const newUser = await db.user.create({
+                data: {
+                    id: user.id,
+                    email: user.email
                 }
             })
-
-            if (dbUser?.email) {
-                return NextResponse.json(dbUser)
-            } else {
-                const newUser = await db.user.create({
-                    data: {
-                        id: user.id,
-                        email: user.email
-                    }
-                })
-                return NextResponse.json(newUser)
-            }
-
-        } else {
-            return new NextResponse(null)
+            return NextResponse.json(newUser)
         }
 
-    } catch (error) {
-        console.log("USER_SYNC_ERROR", error)
-        return new NextResponse("Internal Server Error",{status:500})
+    } else {
+        return new NextResponse("Internal Sever Error",{status:500})
     }
+
 
 }
