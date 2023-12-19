@@ -47,11 +47,12 @@ const UploadDropzone = ({setIsOpen,isSubscribed}:UploadDropzoneProps) => {
             const res = await startUpload(acceptedFile)
 
             if (!res) {
-                toast.error("Something went wrong while uploading")
+                toast.error("Your PDF is too big upgrade to pro plan.")
                 setIsOpen(false)
                 return 
             }
 
+            console.log(res)
             
             clearInterval(progressInterval)
             setUploadProgress(100);
