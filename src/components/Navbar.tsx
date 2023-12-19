@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Button, buttonVariants } from './ui/button'
 import { LoginLink, LogoutLink, RegisterLink, getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { ArrowRight } from 'lucide-react'
+import UserAccountNav from '@/components/UserAccountNav'
 
 export const Navbar = async () => {
 
@@ -18,20 +19,30 @@ export const Navbar = async () => {
                     {/* Add mob nav */}
                     <div className="hidden items-center space-x-4 sm:flex">
                         <>
-                            <Link className={buttonVariants({
-                                variant: 'ghost',
-                                size: 'sm'
-                            })} href={'/pricing'}>Pricing</Link>
+
                             {user
                                 ?
-                                (<LogoutLink>
-                                    <Button>
-                                        Logout
-                                    </Button>
-                                </LogoutLink>)
+                                (
+                                    <>
+                                        <Link className={buttonVariants({
+                                            variant: 'ghost',
+                                            size: 'sm'
+                                        })} href={'/dashboard'}>Dashboard</Link>
+                                        <UserAccountNav name={!user.given_name||!user.family_name ? "Your Account":`${user.given_name} ${user.family_name}`} email={user.email??""} imageUrl={user.picture??""} />
+                                        <LogoutLink>
+                                            <Button>
+                                                Logout
+                                            </Button>
+                                        </LogoutLink>
+                                    </>
+                                )
                                 :
                                 (
                                     <>
+                                        <Link className={buttonVariants({
+                                            variant: 'ghost',
+                                            size: 'sm'
+                                        })} href={'/pricing'}>Pricing</Link>
                                         <LoginLink className={buttonVariants({
                                             variant: 'ghost',
                                             size: 'sm'
